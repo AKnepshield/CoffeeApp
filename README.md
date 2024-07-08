@@ -71,3 +71,5 @@ Once the application is running, you can access it at `http://localhost:8000`.
 ## API Docs
 
 API docs can be accessed at `http://localhost:8000/docs`. 
+
+Bjorn
