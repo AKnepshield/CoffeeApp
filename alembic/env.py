@@ -19,6 +19,7 @@ if config.config_file_name is not None:
 
 from CoffeeApp.db import Base
 from CoffeeApp.user.models import User
+from CoffeeApp.coffee_shop.models import CoffeeShop
 
 # add your model's MetaData object here
 # for 'autogenerate' support
