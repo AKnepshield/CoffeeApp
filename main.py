@@ -1,6 +1,6 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
-
 from CoffeeApp.db import get_db
 from CoffeeApp.user import schemas as user_schemas
 from CoffeeApp.user import models as user_models
@@ -28,10 +28,13 @@ async def get_users(db: Session = Depends(get_db)):
 
 @app.post("/users/", response_model=user_schemas.User)
 async def create_user(user: user_schemas.UserCreate, db: Session = Depends(get_db)):
-    db_user = user_models.User(email=user.email, name=user.name)
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
+    try:
+        db_user = user_models.User(email=user.email, name=user.name)
+        db.add(db_user)
+        db.commit()
+        db.refresh(db_user)
+    except IntegrityError as e:
+        raise HTTPException(status_code=409, detail="Duplicate email") from e
     return db_user
 
 
