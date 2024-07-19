@@ -34,7 +34,9 @@ async def create_user(user: user_schemas.UserCreate, db: Session = Depends(get_d
         db.commit()
         db.refresh(db_user)
     except IntegrityError as e:
-        raise HTTPException(status_code=409, detail="Duplicate email") from e
+        raise HTTPException(
+            status_code=409, detail="Duplicate email.  Use different email."
+        ) from e
     return db_user
 
 
