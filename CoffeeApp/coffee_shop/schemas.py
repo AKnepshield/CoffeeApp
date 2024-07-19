@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class CoffeeShopBase(BaseModel):
@@ -10,8 +10,7 @@ class CoffeeShopCreate(CoffeeShopBase):
 
 
 class CoffeeShop(CoffeeShopBase):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     name: str
-
-    class Config:
-        from_attributes = True
