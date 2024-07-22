@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class UserBase(BaseModel):
@@ -6,7 +6,7 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    email: str
+    email: str = Field(min_length=1)
     name: str
 
 
