@@ -7,7 +7,7 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     email: str = Field(min_length=1)
-    name: str
+    name: str = Field(min_length=1)
 
 
 class User(UserBase):

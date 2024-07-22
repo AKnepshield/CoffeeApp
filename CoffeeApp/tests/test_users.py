@@ -31,3 +31,9 @@ def test_empty_email_input(client):
     payload = {"email": "", "name": "example user"}
     response = client.post("/users", json=payload)
     assert response.status_code == 422
+
+
+def test_empty_name_input(client):
+    payload = {"email": "user@example.com", "name": ""}
+    response = client.post("/users", json=payload)
+    assert response.status_code == 422
