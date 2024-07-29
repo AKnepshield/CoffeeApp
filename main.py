@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, status
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from CoffeeApp.db import get_db
@@ -50,6 +50,13 @@ async def get_coffee_shops(db: Session = Depends(get_db)):
 async def create_coffee_shop(
     coffee_shop: coffee_shop_schemas.CoffeeShopCreate, db: Session = Depends(get_db)
 ):
+    existing_coffee_shop = (
+        db.query(coffee_shop_models.CoffeeShop).filter_by(name=coffee_shop.name).first()
+    )
+    if existing_coffee_shop:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT, detail="Name already exists"
+        )
     db_coffee_shop = coffee_shop_models.CoffeeShop(name=coffee_shop.name)
     db.add(db_coffee_shop)
     db.commit()
